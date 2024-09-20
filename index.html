@@ -32,7 +32,6 @@
 
         /* Puzzle container */
         #puzzle-container {
-
             width: 300px; /* Ensure the size matches the tile grid */
             height: 300px;
             position: relative;
@@ -54,45 +53,10 @@
             color: green;
         }
 
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
         #timer {
             margin-top: 10px;
             font-size: 18px;
             color: blue;
-        }
-
-        #code-container {
-            display: none;
-            margin-top: 20px;
-        }
-
-        #input-code {
-            padding: 10px;
-            font-size: 16px;
-            width: 200px;
-            border: 1px solid #333;
-            border-radius: 5px;
-        }
-
-        #submit-btn {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        #error-message {
-            color: red;
-            margin-top: 10px;
         }
     </style>
 </head>
@@ -105,8 +69,7 @@
         <h3>Rules:</h3><br>
         <ol style="font-size: small; text-align: left; margin-left: 50px;">
             <li>Arrange the tiles to complete the image.</li>
-            <li>Once you complete the puzzle, a code will be displayed.</li>
-            <li>Enter the code to move to the next round.</li>
+            <li>Once you complete the puzzle, you will automatically proceed to the next round.</li>
         </ol><br>
 
         <!-- Puzzle Game -->
@@ -115,33 +78,17 @@
         <!-- Game timer -->
         <div id="timer">Time: 0s</div>
 
-        <!-- Shuffle Button -->
-        <button id="shuffle-btn">Shuffle</button>
-
-        <!-- Congratulations message and code input -->
+        <!-- Congratulations message -->
         <div id="message"></div>
-        <div id="code-container">
-            <p>Congratulations! The code is <strong>12345</strong>. Please enter it below to proceed:</p>
-            <input type="text" id="input-code" placeholder="Enter code">
-            <button id="submit-btn">Submit</button>
-            <div id="error-message"></div>
-        </div>
     </div>
 
     <script>
         const puzzleContainer = document.getElementById('puzzle-container');
         const message = document.getElementById('message');
-        const codeContainer = document.getElementById('code-container');
-        const inputCode = document.getElementById('input-code');
-        const submitBtn = document.getElementById('submit-btn');
-        const errorMessage = document.getElementById('error-message');
-        const shuffleButton = document.getElementById('shuffle-btn');
-
         const imageSrc = 'charles.jpg'; // Replace with the path to your image
         const size = 3; // 3x3 puzzle grid
-
         let tiles = [];
-        let emptyTile = { x: 2, y: 2 }; // This will be the initially "empty" position
+        let emptyTile = { x: 2, y: 2 }; // Initially "empty" position
         let gameFinished = false; // Flag to check if the game is completed
         let startTime = 0; // Timer start
         let timerInterval = null; // Timer interval for updating the time
@@ -201,9 +148,11 @@
                 if (checkWin()) {
                     revealLastTile();
                     gameFinished = true;
-                    message.textContent = 'Congratulations! You solved the puzzle! The Code=fwejoh';
-                    codeContainer.style.display = 'block'; // Show the code input after solving the puzzle
+                    message.textContent = 'Congratulations! You solved the puzzle!';
                     stopTimer(); // Stop the timer when the puzzle is solved
+                    setTimeout(() => {
+                        window.location.href = 'https://techhunt2024.onrender.com//2_x8z4tq.html.html'; // Redirect to the next round URL
+                    }, 2000); // Delay the redirect by 2 seconds for a smooth transition
                 }
             }
         }
@@ -263,20 +212,8 @@
         clearInterval(timerInterval); // Stop the timer
     }
 
-    // Event listener for the submit button
-    submitBtn.addEventListener('click', () => {
-        const enteredCode = inputCode.value.trim();
-        if (enteredCode === 'fwejoh') {
-            window.location.href = 'https://techhunt2024.onrender.com//2_x8z4tq.html'; // Redirect to the next round URL
-        } else {
-            errorMessage.textContent = 'Incorrect code. Please try again.';
-        }
-    });
-
-    // Event listener for the shuffle button
-    shuffleButton.addEventListener('click', shuffle);
-
     // Initialize the puzzle on page load
     window.onload = init;
 </script>
-</body> </html>
+</body>
+</html>
