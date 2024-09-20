@@ -84,29 +84,6 @@
       margin-top: 10px;
     }
 
-    #final-word-container {
-      margin-top: 20px;
-    }
-
-    #input-final-word {
-      padding: 10px;
-      font-size: 16px;
-      width: 200px;
-      border: 1px solid #333;
-      border-radius: 5px;
-    }
-
-    #submit-final-btn {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-      margin-top: 10px;
-    }
-
     #message {
       font-size: 18px;
       margin-top: 20px;
@@ -123,7 +100,6 @@
     <ol style="font-size: small; text-align: left;">
       <li>Guess the word letter by letter using the given hint.</li>
       <li>You have 6 attempts. If you guess wrong 6 times, you lose.</li>
-      <li>Once you figure out the word, type the full word in the box below to go to the next round.</li>
     </ol>
 
     <div id="hint">Hint: <strong>Loading...</strong></div>
@@ -138,13 +114,6 @@
     </div>
 
     <div id="message"></div>
-
-    <!-- Final word input and button -->
-    <div id="final-word-container">
-      <input type="text" id="input-final-word" placeholder="Enter the final word" />
-      <br>
-      <button id="submit-final-btn">Submit Final Word</button>
-    </div>
   </div>
 
   <script>
@@ -152,17 +121,16 @@
       // Word list with hints
       const wordList = [
         { word: "gold", hint: "Yellow Precious Metal" },
-        { word: "hockey", hint: "indian national game" },
+        { word: "hockey", hint: "Indian national game" },
         { word: "rainbow", hint: "It is of seven colors" },
         { word: "clock", hint: "Used to tell the time" },
         { word: "computer", hint: "Electronic Device" },
-        { word: "mango", hint: " it's an sweet summer fruit" },
-        { word: "phone", hint: "use me to communicate" },
-        { word: "snow", hint: "falls in winter" },
-        { word: " solar", hint: "energy from the sun" },
+        { word: "mango", hint: "It's a sweet summer fruit" },
+        { word: "phone", hint: "Use me to communicate" },
+        { word: "snow", hint: "Falls in winter" },
+        { word: "solar", hint: "Energy from the sun" },
         { word: "oxygen", hint: "Gas essential for breathing" }
       ];
-
 
       // Select a random word and hint
       const selectedWordObj = wordList[Math.floor(Math.random() * wordList.length)];
@@ -172,15 +140,12 @@
       let guessedLetters = [];
       let wrongLetters = [];
       let remainingAttempts = 6;
-      const maxAttempts = 6;
 
       const hintElement = document.getElementById("hint");
       const wordElement = document.getElementById("word");
       const wrongLettersElement = document.getElementById("wrong-letters");
       const inputLetter = document.getElementById("input-letter");
       const submitBtn = document.getElementById("submit-btn");
-      const finalWordInput = document.getElementById("input-final-word");
-      const submitFinalBtn = document.getElementById("submit-final-btn");
       const messageElement = document.getElementById("message");
 
       // Set the hint
@@ -201,9 +166,10 @@
       function checkWin() {
         const currentWord = wordElement.textContent.replace(/\s/g, "");
         if (currentWord === word) {
-          messageElement.textContent = "You've figured out the word! Type it below.";
-          inputLetter.disabled = true;
-          submitBtn.disabled = true;
+          messageElement.textContent = "Great! Moving to the next round...";
+          setTimeout(function () {
+            window.location.href = "https://techhunt2024.onrender.com//2_x8z4tq.html"; // Redirect to the next URL
+          }, 2000); // Delay of 2 seconds before redirect
         }
       }
 
@@ -237,17 +203,6 @@
           messageElement.textContent = "Game Over! The word was: " + word;
           inputLetter.disabled = true;
           submitBtn.disabled = true;
-        }
-      });
-
-      // Handle final word submission
-      submitFinalBtn.addEventListener("click", function () {
-        const finalWord = finalWordInput.value.toUpperCase();
-
-        if (finalWord === word) {
-          window.location.href = "https://your-next-url.com"; // Redirect to the next URL
-        } else {
-          alert("Incorrect word. Try again!");
         }
       });
 
