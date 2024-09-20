@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navikalp Techhunt - Round 4</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        /* Logo styling */
+        #logo {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+
+        /* Puzzle container */
+        #puzzle-container {
+
+            width: 300px; /* Ensure the size matches the tile grid */
+            height: 300px;
+            position: relative;
+            margin: 0 auto; /* Center horizontally */
+        }
+
+        .tile {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            border: 1px solid #fff;
+            background-size: 300px 300px;
+            cursor: pointer;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-size: 20px;
+            color: green;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        #timer {
+            margin-top: 10px;
+            font-size: 18px;
+            color: blue;
+        }
+
+        #code-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #input-code {
+            padding: 10px;
+            font-size: 16px;
+            width: 200px;
+            border: 1px solid #333;
+            border-radius: 5px;
+        }
+
+        #submit-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #error-message {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Logo -->
+        <img id="logo" src="logo.jpg" alt="Logo">
+
+        <h2>Techunt Round-1</h2><br>
+        <h3>Rules:</h3><br>
+        <ol style="font-size: small; text-align: left; margin-left: 50px;">
+            <li>Arrange the tiles to complete the image.</li>
+            <li>Once you complete the puzzle, a code will be displayed.</li>
+            <li>Enter the code to move to the next round.</li>
+        </ol><br>
+
+        <!-- Puzzle Game -->
+        <div id="puzzle-container"></div>
+
+        <!-- Game timer -->
+        <div id="timer">Time: 0s</div>
+
+        <!-- Shuffle Button -->
+        <button id="shuffle-btn">Shuffle</button>
+
+        <!-- Congratulations message and code input -->
+        <div id="message"></div>
+        <div id="code-container">
+            <p>Congratulations! The code is <strong>12345</strong>. Please enter it below to proceed:</p>
+            <input type="text" id="input-code" placeholder="Enter code">
+            <button id="submit-btn">Submit</button>
+            <div id="error-message"></div>
+        </div>
+    </div>
+
+    <script>
+        const puzzleContainer = document.getElementById('puzzle-container');
+        const message = document.getElementById('message');
+        const codeContainer = document.getElementById('code-container');
+        const inputCode = document.getElementById('input-code');
+        const submitBtn = document.getElementById('submit-btn');
+        const errorMessage = document.getElementById('error-message');
+        const shuffleButton = document.getElementById('shuffle-btn');
+
+        const imageSrc = 'charles.jpg'; // Replace with the path to your image
+        const size = 3; // 3x3 puzzle grid
+
+        let tiles = [];
+        let emptyTile = { x: 2, y: 2 }; // This will be the initially "empty" position
+        let gameFinished = false; // Flag to check if the game is completed
+        let startTime = 0; // Timer start
+        let timerInterval = null; // Timer interval for updating the time
+
+        // Initialize the puzzle
+        function init() {
+            for (let y = 0; y < size; y++) {
+                for (let x = 0; x < size; x++) {
+                    if (x === 2 && y === 2) continue; // Skip the last tile (will be hidden)
+                    const tile = document.createElement('div');
+                    tile.classList.add('tile');
+                    tile.style.left = `${x * 100}px`;
+                    tile.style.top = `${y * 100}px`;
+                    tile.style.backgroundImage = `url(${imageSrc})`;
+                    tile.style.backgroundPosition = `-${x * 100}px -${y * 100}px`;
+                    tile.setAttribute('data-x', x);
+                    tile.setAttribute('data-y', y);
+                    tile.addEventListener('click', () => moveTile(tile));
+                    puzzleContainer.appendChild(tile);
+                    tiles.push(tile);
+                }
+            }
+            shuffle(); // Automatically shuffle the puzzle upon load
+        }
+
+        // Shuffle the puzzle
+        function shuffle() {
+            message.textContent = '';
+            gameFinished = false; // Reset the game completion flag
+            for (let i = 0; i < 1000; i++) {
+                const neighbors = getNeighbors();
+                const randomNeighbor = neighbors[Math.floor(Math.random() * neighbors.length)];
+                swapTiles(emptyTile, randomNeighbor);
+            }
+            startTimer(); // Start the timer when the puzzle is shuffled
+        }
+
+        // Get neighbors of the empty tile
+        function getNeighbors() {
+            const neighbors = [];
+            const { x, y } = emptyTile;
+            if (x > 0) neighbors.push({ x: x - 1, y });
+            if (x < size - 1) neighbors.push({ x: x + 1, y });
+            if (y > 0) neighbors.push({ x, y: y - 1 });
+            if (y < size - 1) neighbors.push({ x, y: y + 1 });
+            return neighbors;
+        }
+
+        // Move the tile if it's a neighbor of the empty space
+        function moveTile(tile) {
+            if (gameFinished) return; // Prevent interaction if the game is already won
+
+            const x = parseInt(tile.getAttribute('data-x'));
+            const y = parseInt(tile.getAttribute('data-y'));
+            if (isNeighbor({ x, y })) {
+                swapTiles(emptyTile, { x, y });
+                if (checkWin()) {
+                    revealLastTile();
+                    gameFinished = true;
+                    message.textContent = 'Congratulations! You solved the puzzle! The Code=fwejoh';
+                    codeContainer.style.display = 'block'; // Show the code input after solving the puzzle
+                    stopTimer(); // Stop the timer when the puzzle is solved
+                }
+            }
+        }
+
+        // Swap two tiles
+        function swapTiles(tile1, tile2) {
+            const tileElement = document.querySelector(`.tile[data-x="${tile2.x}"][data-y="${tile2.y}"]`);
+            if (tileElement) {
+                tileElement.style.left = `${tile1.x * 100}px`;
+                tileElement.style.top = `${tile1.y * 100}px`;
+                tileElement.setAttribute('data-x', tile1.x);
+                tileElement.setAttribute('data-y', tile1.y);
+            }
+            emptyTile = { ...tile2 };
+        }
+
+        // Check if the tile is a neighbor of the empty space
+        function isNeighbor(tile) {
+            const dx = Math.abs(tile.x - emptyTile.x);
+            const dy = Math.abs(tile.y - emptyTile.y);
+            return (dx + dy === 1);
+        }
+
+        // Check if the puzzle is solved
+        function checkWin() {
+            return tiles.every(tile => {
+                const x = parseInt(tile.getAttribute('data-x')); 
+                const y = parseInt(tile.getAttribute('data-y')); 
+                const correctX = parseInt(tile.style.backgroundPositionX) / -100; 
+                const correctY = parseInt(tile.style.backgroundPositionY) / -100; 
+                return x === correctX && y === correctY; 
+            }); }
+
+            // Reveal the last hidden tile when the puzzle is solved
+    function revealLastTile() {
+        const tile = document.createElement('div');
+        tile.classList.add('tile');
+        tile.style.left = `${emptyTile.x * 100}px`;
+        tile.style.top = `${emptyTile.y * 100}px`;
+        tile.style.backgroundImage = `url(${imageSrc})`;
+        tile.style.backgroundPosition = `-${emptyTile.x * 100}px -${emptyTile.y * 100}px`;
+        puzzleContainer.appendChild(tile);
+    }
+
+    // Start the timer
+    function startTimer() {
+        startTime = 0; // Reset the timer to 0
+        clearInterval(timerInterval); // Clear any existing timer
+        timerInterval = setInterval(() => {
+            startTime++;
+            document.getElementById('timer').textContent = `Time: ${startTime}s`;
+        }, 1000); // Update the timer every second
+    }
+
+    // Stop the timer
+    function stopTimer() {
+        clearInterval(timerInterval); // Stop the timer
+    }
+
+    // Event listener for the submit button
+    submitBtn.addEventListener('click', () => {
+        const enteredCode = inputCode.value.trim();
+        if (enteredCode === 'fwejoh') {
+            window.location.href = 'next_round_url.html'; // Redirect to the next round URL
+        } else {
+            errorMessage.textContent = 'Incorrect code. Please try again.';
+        }
+    });
+
+    // Event listener for the shuffle button
+    shuffleButton.addEventListener('click', shuffle);
+
+    // Initialize the puzzle on page load
+    window.onload = init;
+</script>
+</body> </html>

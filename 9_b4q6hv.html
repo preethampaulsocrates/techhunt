@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechHunt Round 8.1 - Memory Game</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      text-align: center;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    #logo {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: black;
+    }
+
+    h3 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: black;
+    }
+
+    ol {
+      font-size: 14px;
+      text-align: left;
+      margin-bottom: 30px;
+      color: black;
+    }
+
+    .memory-game {
+      width: 340px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 10px;
+    }
+
+    .memory-card {
+      width: 80px;
+      height: 80px;
+      background-color:navajowhite;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .memory-card img {
+      width: 60px;
+      height: 60px;
+      display: none;
+    }
+
+    .memory-card.flip img {
+      display: block;
+    }
+
+    .memory-card.flip {
+      background-color: #fff;
+    }
+
+    #message {
+      margin-top: 20px;
+      font-size: 16px;
+      color: black;
+    }
+
+    #secret-code {
+      margin-top: 20px;
+      font-size: 20px;
+      color: green;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Page Heading -->
+    <h1>TechHunt Round 6.1 - Memory Game</h1>
+
+    <!-- Logo -->
+    <img id="logo" src="logo.jpg" alt="Logo">
+
+    <!-- Rules -->
+    <h3>Rules:</h3>
+    <ol>
+      <li>Find all matching pairs of cards.</li>
+      <li>Flip two cards at a time to find a match.</li>
+      <li>If you don't finish within 14 clicks, the game resets automatically.</li>
+      <li>Once all pairs are matched, a secret code will be revealed for the next round.</li>
+    </ol>
+
+    <!-- Memory Game Grid -->
+    <div class="memory-game">
+      <div class="memory-card" data-framework="html">
+        <img src="html-logo.png" alt="HTML">
+      </div>
+      <div class="memory-card" data-framework="css">
+        <img src="css-logo.png" alt="CSS">
+      </div>
+      <div class="memory-card" data-framework="html">
+        <img src="html-logo.png" alt="HTML">
+      </div>
+      <div class="memory-card" data-framework="css">
+        <img src="css-logo.png" alt="CSS">
+      </div>
+      <div class="memory-card" data-framework="js">
+        <img src="js-logo.png" alt="JavaScript">
+      </div>
+      <div class="memory-card" data-framework="react">
+        <img src="react-logo.png" alt="React">
+      </div>
+      <div class="memory-card" data-framework="js">
+        <img src="js-logo.png" alt="JavaScript">
+      </div>
+      <div class="memory-card" data-framework="react">
+        <img src="react-logo.png" alt="React">
+      </div>
+    </div>
+
+    <!-- Message Section -->
+    <div id="message"></div>
+    
+    <!-- Secret Code Section -->
+    <div id="secret-code" style="display:none;">Code: 5678XYZ</div>
+  </div>
+
+  <script>
+    const cards = document.querySelectorAll('.memory-card');
+    let hasFlippedCard = false;
+    let lockBoard = false;
+    let firstCard, secondCard;
+    let matchedPairs = 0;
+    const totalPairs = 4; // Total pairs of cards
+    const maxClicks = 12; // Maximum number of clicks allowed
+    let clickCount = 0; // Click counter
+    const messageElement = document.getElementById('message');
+    const secretCodeElement = document.getElementById('secret-code');
+
+    function flipCard() {
+      if (lockBoard) return;
+      if (this === firstCard) return;
+
+      this.classList.add('flip');
+      clickCount++;
+
+      if (!hasFlippedCard) {
+        hasFlippedCard = true;
+        firstCard = this;
+        return;
+      }
+
+      secondCard = this;
+      checkForMatch();
+
+      // Check if click limit exceeded
+      if (clickCount > maxClicks) {
+        resetGame("You ran out of clicks! Please refresh to start over.");
+      }
+    }
+
+    function checkForMatch() {
+      let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
+      isMatch ? disableCards() : unflipCards();
+    }
+
+    function disableCards() {
+      firstCard.removeEventListener('click', flipCard);
+      secondCard.removeEventListener('click', flipCard);
+      matchedPairs++;
+      resetBoard();
+
+      if (matchedPairs === totalPairs) {
+        messageElement.textContent = "Congratulations! You've matched all pairs!";
+        // Display the secret code
+        secretCodeElement.style.display = 'block';
+      }
+    }
+
+    function unflipCards() {
+      lockBoard = true;
+
+      setTimeout(() => {
+        firstCard.classList.remove('flip');
+        secondCard.classList.remove('flip');
+        resetBoard();
+      }, 1500);
+    }
+
+    function resetBoard() {
+      [hasFlippedCard, lockBoard] = [false, false];
+      [firstCard, secondCard] = [null, null];
+    }
+
+    function resetGame(message) {
+      messageElement.textContent = message;
+
+      // Reset the game board and shuffle cards
+      setTimeout(() => {
+        cards.forEach(card => card.classList.remove('flip'));
+        shuffle();
+        resetBoard();
+        matchedPairs = 0;
+        clickCount = 0;
+        messageElement.textContent = '';
+        secretCodeElement.style.display = 'none'; // Hide the code if game resets
+      }, 1500);
+    }
+
+    (function shuffle() {
+      cards.forEach(card => {
+        let randomPos = Math.floor(Math.random() * 8);
+        card.style.order = randomPos;
+      });
+    })();
+
+    cards.forEach(card => card.addEventListener('click', flipCard));
+  </script>
+</body>
+</html>

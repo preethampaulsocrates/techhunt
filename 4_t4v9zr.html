@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Round 4 - Clue Hunt</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        /* Style for the image */
+        #clue-image {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+            border: 2px solid #333;
+        }
+
+        /* Input box and button styling */
+        #input-container {
+            margin-top: 20px;
+        }
+
+        #input-code {
+            padding: 10px;
+            font-size: 16px;
+            width: 200px;
+            border: 1px solid #333;
+            border-radius: 5px;
+        }
+
+        #submit-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        #rules {
+            text-align: left;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Logo -->
+        <img id="logo" src="logo.jpg" alt="Logo" width="100">
+
+        <h2>Techunt Round-4: Clue Hunt</h2><br>
+        <h3>Rules:</h3><br>
+        <ol id="rules" style="font-size: small;">
+            <li>Solve this puzzle</li>
+            <li>Enter the result in the text box</li>
+            <li>Which takes you to the next round</li>
+        </ol><br>
+
+        <!-- Clue Image -->
+        <img id="clue-image" src="math.jpg" alt="Clue Image" width="300">
+
+        <!-- Input box and button for entering the clue number -->
+        <div id="input-container">
+            <input type="text" id="input-code" placeholder="Enter the number here" />
+            <br>
+            <button id="submit-btn">Submit</button>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const submitBtn = document.getElementById("submit-btn");
+            const inputCode = document.getElementById("input-code");
+
+            const correctNumber = "42"; // The correct number from the clue
+
+            submitBtn.addEventListener("click", function() {
+                const userInput = inputCode.value.trim();
+
+                if (userInput === correctNumber) {
+                    window.location.href = "https://your-next-url.com"; // Redirect to next round
+                } else {
+                    alert("Incorrect number. Try again!");
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navikalp Techhunt - Round 10 Sub-Round</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f4;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      text-align: center;
+      width: 100%;
+      max-width: 600px;
+      padding: 20px;
+    }
+    #logo {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+    #rules {
+      font-size: 18px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    #puzzle {
+      display: grid;
+      grid-template-columns: repeat(10, 30px);
+      grid-gap: 2px;
+      justify-content: center;
+      margin: 20px auto;
+    }
+    .cell {
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      font-size: 16px;
+    }
+    #hidden-words {
+      margin-top: 20px;
+      font-size: 18px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Page Heading -->
+    <h1>Techhunt Round 6.1</h1>
+
+    <!-- Logo -->
+    <img id="logo" src="logo.jpg" alt="Logo">
+
+    <!-- Rules -->
+    <div id="rules">
+      <h3>Rules:</h3>
+      <ol style="font-size: small; text-align: left;">
+        <li>Find the hidden words within the grid below.</li>
+        <li>One of these words will take you to the next round.</li>
+        <li>Words can be hidden vertically, horizontally, or diagonally.</li>
+      </ol>
+    </div>
+
+    <!-- Puzzle Grid -->
+    <div id="puzzle">
+      <!-- Puzzle Grid Cells -->
+      <!-- Replace with your puzzle letters -->
+      <div class="cell">C</div><div class="cell">O</div><div class="cell">M</div><div class="cell">P</div><div class="cell">U</div><div class="cell">T</div><div class="cell">E</div><div class="cell">R</div><div class="cell">A</div><div class="cell">P</div>
+      <div class="cell">O</div><div class="cell">L</div><div class="cell">E</div><div class="cell">P</div><div class="cell">H</div><div class="cell">O</div><div class="cell">N</div><div class="cell">E</div><div class="cell">G</div><div class="cell">A</div>
+      <div class="cell">R</div><div class="cell">I</div><div class="cell">N</div><div class="cell">B</div><div class="cell">O</div><div class="cell">W</div><div class="cell">R</div><div class="cell">A</div><div class="cell">I</div><div class="cell">N</div>
+      <div class="cell">C</div><div class="cell">L</div><div class="cell">O</div><div class="cell">C</div><div class="cell">K</div><div class="cell">M</div><div class="cell">A</div><div class="cell">N</div><div class="cell">G</div><div class="cell">O</div>
+      <div class="cell">G</div><div class="cell">O</div><div class="cell">L</div><div class="cell">D</div><div class="cell">A</div><div class="cell">P</div><div class="cell">P</div><div class="cell">L</div><div class="cell">E</div><div class="cell">G</div>
+      <div class="cell">P</div><div class="cell">H</div><div class="cell">O</div><div class="cell">N</div><div class="cell">E</div><div class="cell">X</div><div class="cell">G</div><div class="cell">T</div><div class="cell">E</div><div class="cell">H</div>
+      <div class="cell">M</div><div class="cell">A</div><div class="cell">T</div><div class="cell">O</div><div class="cell">S</div><div class="cell">U</div><div class="cell">P</div><div class="cell">W</div><div class="cell">R</div><div class="cell">C</div>
+      <div class="cell">F</div><div class="cell">S</div><div class="cell">T</div><div class="cell">A</div><div class="cell">N</div><div class="cell">S</div><div class="cell">A</div><div class="cell">N</div><div class="cell">S</div><div class="cell">H</div>
+      <div class="cell">E</div><div class="cell">L</div><div class="cell">L</div><div class="cell">O</div><div class="cell">P</div><div class="cell">L</div><div class="cell">T</div><div class="cell">E</div><div class="cell">R</div><div class="cell">I</div>
+      <div class="cell">F</div><div class="cell">C</div><div class="cell">O</div><div class="cell">M</div><div class="cell">P</div><div class="cell">R</div><div class="cell">A</div><div class="cell">G</div><div class="cell">L</div><div class="cell">A</div>
+    </div>
+
+    <!-- Hidden Words -->
+    <div id="hidden-words">
+      <!-- Hidden words not displayed -->
+    </div>
+
+    <p id="message"></p>
+  </div>
+</body>
+</html>

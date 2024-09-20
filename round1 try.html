@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navikalp Techhunt</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f9;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  text-align: center;
+  width: 100%; /* Full width for centering */
+  max-width: 400px;
+}
+
+#puzzle-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin: 0 auto; /* Center the puzzle horizontally */
+  max-width: 302px;
+}
+
+.puzzle-piece {
+  width: 100px;
+  height: 100px;
+  background-image: url('charles2.jpg');
+  background-size: 300px 300px;
+  border: 2px solid #333;
+  cursor: pointer;
+}
+
+    .hidden {
+      visibility: hidden;
+    }
+
+    #code {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      display: none;
+    }
+
+    /* Logo styling */
+    #logo {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+
+    /* Input box and button styling */
+    #input-container {
+      margin-top: 20px;
+      /* Remove display: none so that the input and button are visible */
+    }
+
+    #input-code {
+      padding: 10px;
+      font-size: 16px;
+      width: 200px;
+      border: 1px solid #333;
+      border-radius: 5px;
+    }
+
+    #submit-btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Logo -->
+    <img id="logo" src="logo.jpg" alt="Logo">
+
+    <h2>Techunt Round-1</h2><br>
+    <h3>Rules:</h3><br>
+    <ol style="font-size: small; text-align: left;">
+    <li>Solve this Puzzle by clicking the blocks</li>
+    <li>After solving the puzzle you'll get a series of numbers</li>
+    <li>That is your code enter the code in the textbox and click the button to go to next round</li></ol><br>
+    
+    <div id="puzzle-container">
+      <!-- 9 Puzzle Pieces -->
+      <div class="puzzle-piece" data-position="1" style="background-position: 0 0;"></div>
+      <div class="puzzle-piece" data-position="2" style="background-position: -100px 0;"></div>
+      <div class="puzzle-piece" data-position="3" style="background-position: -200px 0;"></div>
+      <div class="puzzle-piece" data-position="4" style="background-position: 0 -100px;"></div>
+      <div class="puzzle-piece" data-position="5" style="background-position: -100px -100px;"></div>
+      <div class="puzzle-piece" data-position="6" style="background-position: -200px -100px;"></div>
+      <div class="puzzle-piece" data-position="7" style="background-position: 0 -200px;"></div>
+      <div class="puzzle-piece" data-position="8" style="background-position: -100px -200px;"></div>
+      <div class="puzzle-piece hidden" data-position="9" style="background-position: -200px -200px;"></div>
+    </div>
+
+    <div id="code">Congratulations! Your Code: <strong>12345</strong></div>
+
+    <!-- Input box and button for checking the code -->
+    <div id="input-container">
+      <input type="text" id="input-code" placeholder="Enter code here" />
+      <br>
+      <button id="submit-btn">Submit</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const puzzleContainer = document.getElementById("puzzle-container");
+      const pieces = Array.from(document.querySelectorAll(".puzzle-piece"));
+      const codeElement = document.getElementById("code");
+      const submitBtn = document.getElementById("submit-btn");
+      const inputCode = document.getElementById("input-code");
+      let emptyPosition = 9; // Initially, the empty position is at position 9
+      const correctCode = "12345"; // Correct code to enter
+
+      // Shuffle the puzzle pieces as soon as the page loads
+      shufflePieces();
+
+      pieces.forEach(piece => {
+        piece.addEventListener("click", () => movePiece(piece));
+      });
+
+      submitBtn.addEventListener("click", function() {
+        const userInput = inputCode.value;
+        if (userInput === correctCode) {
+          window.location.href = "https://your-next-url.com"; // Redirect to a new URL
+        } else {
+          alert("Incorrect code. Try again!");
+        }
+      });
+
+      function movePiece(piece) {
+        const piecePosition = parseInt(piece.dataset.position);
+        const row = Math.floor((piecePosition - 1) / 3);
+        const col = (piecePosition - 1) % 3;
+        const emptyRow = Math.floor((emptyPosition - 1) / 3);
+        const emptyCol = (emptyPosition - 1) % 3;
+
+        if ((Math.abs(row - emptyRow) + Math.abs(col - emptyCol)) === 1) {
+          swapPieces(piece, piecePosition);
+          checkWin();
+        }
+      }
+
+      function swapPieces(piece, piecePosition) {
+        const emptyPiece = pieces.find(p => parseInt(p.dataset.position) === emptyPosition);
+        emptyPiece.style.backgroundPosition = piece.style.backgroundPosition;
+        emptyPiece.classList.remove('hidden');
+        piece.classList.add('hidden');
+        piece.style.backgroundPosition = "";
+        emptyPosition = piecePosition;
+      }
+
+      function shufflePieces() {
+        for (let i = 0; i < 100; i++) {
+          const movablePieces = pieces.filter(piece => canMove(piece));
+          const randomPiece = movablePieces[Math.floor(Math.random() * movablePieces.length)];
+          movePiece(randomPiece);
+        }
+      }
+
+      function canMove(piece) {
+        const piecePosition = parseInt(piece.dataset.position);
+        const row = Math.floor((piecePosition - 1) / 3);
+        const col = (piecePosition - 1) % 3;
+        const emptyRow = Math.floor((emptyPosition - 1) / 3);
+        const emptyCol = (emptyPosition - 1) % 3;
+        return (Math.abs(row - emptyRow) + Math.abs(col - emptyCol)) === 1;
+      }
+
+      function checkWin() {
+        const correctPositions = pieces.every(piece => {
+          const currentPiecePosition = piece.classList.contains("hidden") ? emptyPosition : parseInt(piece.dataset.position);
+          return currentPiecePosition === piece.dataset.position;
+        });
+
+        if (correctPositions) {
+          codeElement.style.display = "block"; // Display the code when puzzle is solved
+        }
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navikalp Techhunt - Round 3</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f9;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    /* Logo styling */
+    #logo {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+
+    /* Jumbled word and input box styling */
+    #jumbled-word {
+      font-size: 24px;
+      letter-spacing: 5px;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    #input-container {
+      margin-top: 20px;
+    }
+
+    #input-word {
+      padding: 10px;
+      font-size: 16px;
+      width: 200px;
+      border: 1px solid #333;
+      border-radius: 5px;
+    }
+
+    #submit-btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+
+    #message {
+      font-size: 18px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Logo -->
+    <img id="logo" src="logo.jpg" alt="Logo">
+
+    <h2>Techunt Round-3.2</h2><br>
+    <h3>Rules:</h3><br>
+    <ol style="font-size: small; text-align: left;">
+      <li>Unscramble the jumbled word.</li>
+      <li>Type the correct word in the box below and click submit.</li>
+      <li>If your guess is correct, you'll move to the next round.</li>
+    </ol><br>
+
+    <!-- Jumbled word display -->
+    <div id="jumbled-word">Loading...</div>
+
+    <!-- Input box and button for guessing the word -->
+    <div id="input-container">
+      <input type="text" id="input-word" placeholder="Enter the correct word" />
+      <br>
+      <button id="submit-btn">Submit</button>
+    </div>
+
+    <div id="message"></div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Word list
+      const wordList = ["flowchart", "python", "mobile", "student", "computer", "programming", "algorithm", "elephant", "network","collage","peacock","cricket","oxygen","teacher","fantastic","device","University","laptop","Karnataka","village"];
+
+
+      // Select a random word and jumble it
+      const selectedWord = wordList[Math.floor(Math.random() * wordList.length)];
+      const jumbledWord = jumbleWord(selectedWord);
+
+      // Display the jumbled word
+      const jumbledWordElement = document.getElementById("jumbled-word");
+      jumbledWordElement.textContent = jumbledWord;
+
+      // Elements for input and button
+      const inputWord = document.getElementById("input-word");
+      const submitBtn = document.getElementById("submit-btn");
+      const messageElement = document.getElementById("message");
+
+      // Event listener for the submit button
+      submitBtn.addEventListener("click", function () {
+        const userInput = inputWord.value.toLowerCase();
+        if (userInput === selectedWord) {
+          window.location.href = "https://your-next-url.com"; // Redirect to the next round
+        } else {
+          messageElement.textContent = "Incorrect! Try again.";
+          messageElement.style.color = "red";
+        }
+      });
+
+      // Function to jumble the letters of a word
+      function jumbleWord(word) {
+        const letters = word.split('');
+        for (let i = letters.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [letters[i], letters[j]] = [letters[j], letters[i]];
+        }
+        return letters.join('');
+      }
+    });
+  </script>
+</body>
+</html>

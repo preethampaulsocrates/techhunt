@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechHunt Round 8 - Trivia Quiz</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #64b5f6;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      text-align: center;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    #logo {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    h3 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: white;
+    }
+
+    ol {
+      font-size: 14px;
+      text-align: left;
+      margin-bottom: 30px;
+      color: white;
+    }
+
+    .quiz-question {
+      font-size: 20px;
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    .option {
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1b5e20;
+    }
+
+    #message {
+      margin-top: 20px;
+      font-size: 16px;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Page Heading -->
+    <h1>TechHunt Round 11 - Trivia Quiz</h1>
+
+    <!-- Logo -->
+    <img id="logo" src="logo.jpg" alt="Logo">
+
+    <!-- Rules -->
+    <h3>Rules:</h3>
+    <ol>
+      <li>Answer the trivia question below by selecting the correct option.</li>
+      <li>Choose the right answer to proceed to the next round.</li>
+      <li>If you choose incorrectly, you can try again.</li>
+    </ol>
+
+    <!-- Trivia Question -->
+    <div class="quiz-question">
+      What is the capital city of Australia?
+    </div>
+
+    <!-- Multiple Choice Options -->
+    <div class="option">
+      <input type="radio" id="option1" name="quiz" value="Sydney">
+      <label for="option1">Sydney</label>
+    </div>
+
+    <div class="option">
+      <input type="radio" id="option2" name="quiz" value="Melbourne">
+      <label for="option2">Melbourne</label>
+    </div>
+
+    <div class="option">
+      <input type="radio" id="option3" name="quiz" value="Canberra">
+      <label for="option3">Canberra</label>
+    </div>
+
+    <div class="option">
+      <input type="radio" id="option4" name="quiz" value="Brisbane">
+      <label for="option4">Brisbane</label>
+    </div>
+
+    <!-- Submit Button -->
+    <button onclick="checkAnswer()">Submit</button>
+
+    <!-- Message Section -->
+    <div id="message"></div>
+  </div>
+
+  <script>
+    function checkAnswer() {
+      const correctAnswer = "Canberra";
+      const selectedOption = document.querySelector('input[name="quiz"]:checked');
+      const messageElement = document.getElementById('message');
+
+      if (!selectedOption) {
+        alert("Please select an option.");
+        return;
+      }
+
+      if (selectedOption.value === correctAnswer) {
+        messageElement.textContent = "Correct! Moving to the next round...";
+        setTimeout(() => {
+          window.location.href = "https://your-next-round-url.com"; // Redirect to the next round
+        }, 1500);
+      } else {
+        messageElement.textContent = "Incorrect! Please try again.";
+      }
+    }
+  </script>
+</body>
+</html>

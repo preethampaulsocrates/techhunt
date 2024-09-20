@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechHunt Round 12 - Image Puzzle</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      text-align: center;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    #logo {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    h3 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: #555;
+    }
+
+    ol {
+      font-size: 14px;
+      text-align: left;
+      margin-bottom: 30px;
+      color: #555;
+    }
+
+    .image-container {
+      margin-bottom: 20px;
+    }
+
+    #puzzle-image {
+      max-width: 100%;
+      height: auto;
+      border: 2px solid #333;
+      border-radius: 10px;
+    }
+
+    .input-section {
+      margin-top: 20px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 80%;
+      border: 2px solid #333;
+      border-radius: 5px;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #message {
+      margin-top: 20px;
+      font-size: 16px;
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Page Heading -->
+    <h1>TechHunt Round 12 - Image Puzzle</h1>
+
+    <!-- Logo -->
+    <img id="logo" src="logo.jpg" alt="Logo">
+
+    <!-- Rules -->
+    <h3>Rules:</h3>
+    <ol>
+      <li>Study the image carefully, it contains a hidden clue.</li>
+      <li>The clue leads to the name of someone important.</li>
+      <li>Once you figure it out, that person will give you a paper with a riddle for the next round.</li>
+    </ol>
+
+    <!-- Image Puzzle -->
+    <div class="image-container">
+      <img id="puzzle-image" src="" alt="Puzzle Image">
+    </div>
+
+    <!-- Input Section -->
+    <div class="input-section">
+      <input type="text" id="code" placeholder="Enter the code"><br>
+      <button id="submit-btn">Submit</button>
+    </div>
+
+    <!-- Message Section -->
+    <div id="message"></div>
+  </div>
+
+  <script>
+    const images = [
+      'clue1.jpg',
+      'clue2.jpg',
+      'clue3.jpg',
+      'clue4.jpg',
+      'clue5.jpg'
+    ];
+
+    // Select a random image to display
+    const randomImage = images[Math.floor(Math.random() * images.length)];
+    document.getElementById('puzzle-image').src = randomImage;
+
+    const submitBtn = document.getElementById('submit-btn');
+    const message = document.getElementById('message');
+
+    submitBtn.addEventListener('click', function() {
+      const codeInput = document.getElementById('code').value;
+
+      // Check if the entered code is correct
+      if (codeInput === 'strawberry') {
+        message.style.color = 'green';
+        message.textContent = 'Correct! Proceed to the next round.';
+        setTimeout(() => {
+          window.location.href = "https://your-next-round-url.com"; // Redirect to the next round
+        }, 1500);
+      } else {
+        message.style.color = 'red';
+        message.textContent = 'Incorrect code, try again!';
+      }
+    });
+  </script>
+</body>
+</html>

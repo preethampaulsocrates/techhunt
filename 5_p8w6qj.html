@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Round 5 - Hidden Code Challenge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 400px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        #logo {
+            margin-bottom: 20px;
+        }
+
+        a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 20px 0;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        a:hover {
+            background-color: #45a049;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 100%;
+            margin: 10px 0;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #333;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #rules {
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        #error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Logo -->
+    <div id="logo">
+        <img src="logo.jpg" alt="Event Logo" width="150"> <!-- Replace with your logo -->
+    </div>
+
+    <h2>Round 5: Hidden Code Challenge</h2>
+
+    <!-- Rules Section -->
+    <div id="rules">
+        <p>Rule 1: Watch the video carefully.</p>
+        <p>Rule 2: Find the hidden code.</p>
+        <p>Rule 3: Enter the correct code to proceed.</p>
+    </div>
+
+    <!-- YouTube Video Link -->
+    <a href="https://youtu.be/ERqwnaTn0yY?si=ypNqkGs_wKchfjNb" target="_blank">Watch the Video</a>
+
+    <!-- Input for Code Entry -->
+    <input type="text" id="code-input" placeholder="Enter the hidden code" />
+    <button id="submit-btn">Submit</button>
+
+    <!-- Error Message -->
+    <div id="error-message"></div>
+</div>
+
+<script>
+    document.getElementById('submit-btn').addEventListener('click', function() {
+        const correctCode = "21487"; // Replace this with the actual code from the video
+        const userCode = document.getElementById('code-input').value;
+
+        if (userCode === correctCode) {
+            window.location.href = "next-round.html"; // Replace with the next round URL
+        } else {
+            document.getElementById('error-message').textContent = "Incorrect code, please try again!";
+        }
+    });
+</script>
+
+</body>
+</html>

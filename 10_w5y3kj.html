@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechHunt Round 7 - Math Puzzle</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #ff7043;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      text-align: center;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    #logo {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    h3 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: white;
+    }
+
+    ol {
+      font-size: 14px;
+      text-align: left;
+      margin-bottom: 30px;
+      color: white;
+    }
+
+    .math-puzzle {
+      margin-bottom: 20px;
+      font-size: 22px;
+      color: white;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 10px;
+      width: 100px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1b5e20;
+    }
+
+    #message {
+      margin-top: 20px;
+      font-size: 16px;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Page Heading -->
+    <h1>TechHunt Round 10 - Math Puzzle</h1>
+
+    <!-- Logo -->
+    <img id="logo" src="logo.jpg" alt="Logo">
+
+    <!-- Rules -->
+    <h3>Rules:</h3>
+    <ol>
+      <li>Solve the given math problem.</li>
+      <li>Enter the correct answer in the text box.</li>
+      <li>If your answer is correct, you'll be taken to the next round.</li>
+    </ol>
+
+    <!-- Math Puzzle Section -->
+    <div class="math-puzzle">
+      <p>Solve: (10 + 5) × 2 - 6 ÷ 3</p>
+    </div>
+
+    <!-- Answer Input and Button -->
+    <input type="text" id="answer" placeholder="Enter answer">
+    <br>
+    <button onclick="checkAnswer()">Submit</button>
+
+    <!-- Message Section -->
+    <div id="message"></div>
+  </div>
+
+  <script>
+    function checkAnswer() {
+      const correctAnswer = 28; // The correct answer to the math puzzle
+      const userAnswer = document.getElementById('answer').value;
+      const messageElement = document.getElementById('message');
+
+      if (parseInt(userAnswer) === correctAnswer) {
+        messageElement.textContent = "Correct! Moving to the next round...";
+        setTimeout(() => {
+          window.location.href = "https://your-next-round-url.com"; // Redirect to the next round
+        }, 1500);
+      } else {
+        messageElement.textContent = "Incorrect! Please try again.";
+      }
+    }
+  </script>
+</body>
+</html>

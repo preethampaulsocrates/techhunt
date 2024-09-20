@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navikalp Techhunt - Round 6</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #e94e77; /* Tomato color background */
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      text-align: center;
+      width: 100%;
+      max-width: 600px;
+      padding: 20px;
+    }
+    #logo {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      color: white;
+      margin-bottom: 20px;
+    }
+    #rules {
+      font-size: 18px;
+      color: white;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    #riddle-box {
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px auto;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      display: inline-block;
+      text-align: center;
+    }
+    #riddle {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    #code-container {
+      margin: 20px 0;
+    }
+    #input-code {
+      padding: 10px;
+      font-size: 16px;
+      width: 250px;
+      border: 1px solid #333;
+      border-radius: 5px;
+      text-align: center;
+    }
+    #submit-btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+    #message {
+      font-size: 18px;
+      margin-top: 20px;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Page Heading -->
+    <h1>Techhunt Round-6</h1>
+
+    <!-- Logo -->
+    <img id="logo" src="logo.jpg" alt="Logo">
+
+    <!-- Rules -->
+    <div id="rules">
+      <h3>Rules:</h3>
+      <ol style="font-size: small; text-align: left;">
+        <li>Solve the riddle provided below.</li>
+        <li>and locate the place</li>
+        <li>scan the qr code there with another mobile</li>
+        <li>finish the task there and enter the correct code here</li>
+      </ol>
+    </div>
+
+    <!-- Riddle and Code Entry -->
+    <div id="riddle-box">
+      <p id="riddle">I'm where you look for news and views,
+        In the corridor, i am an information reader. What am I?</p>
+      
+      <div id="code-container">
+        <input type="text" id="input-code" placeholder="Enter the code" />
+        <br>
+        <button id="submit-btn">Submit</button>
+      </div>
+    </div>
+    
+    <p id="message"></p>
+  </div>
+
+  <script>
+    document.getElementById("submit-btn").addEventListener("click", function () {
+      const inputCode = document.getElementById("input-code").value.trim().toLowerCase();
+      const correctCode = "apple"; // Replace this with the correct code
+
+      if (inputCode === correctCode) {
+        window.location.href = "https://your-next-url.com"; // Redirect to the next URL
+      } else {
+        document.getElementById("message").textContent = "Incorrect code. Try again!";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechHunt Round 10 - Anagram Puzzle</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #e3f2fd;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      text-align: center;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    #logo {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #0277bd;
+    }
+
+    h3 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: #0277bd;
+    }
+
+    ol {
+      font-size: 14px;
+      text-align: left;
+      margin-bottom: 30px;
+      color: #0277bd;
+    }
+
+    #puzzle-container {
+      margin-top: 20px;
+    }
+
+    #anagram {
+      font-size: 24px;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+      font-weight: bold;
+      color: #01579b;
+    }
+
+    #input-container {
+      margin-top: 20px;
+    }
+
+    #input-word {
+      padding: 10px;
+      font-size: 16px;
+      width: 250px;
+      border: 1px solid #0277bd;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    #submit-btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #0288d1;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+
+    #submit-btn:hover {
+      background-color: #0277bd;
+    }
+
+    #message {
+      font-size: 18px;
+      margin-top: 20px;
+      color: #0277bd;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Logo -->
+    <img id="logo" src="logo.jpg" alt="Logo">
+
+    <!-- Page Heading -->
+    <h1>TechHunt Round 10 - Anagram Puzzle</h1>
+
+    <!-- Rules -->
+    <h3>Rules:</h3>
+    <ol>
+      <li>Unscramble the letters to form the correct word.</li>
+      <li>Enter the word in the box below and submit to check your answer.</li>
+      <li>If the word is correct, you'll proceed to the next round.</li>
+    </ol>
+
+    <!-- Anagram Puzzle -->
+    <div id="puzzle-container">
+      <div id="anagram">NGRAMAEL</div>
+    </div>
+
+    <!-- Input box and button -->
+    <div id="input-container">
+      <input type="text" id="input-word" placeholder="Enter the word" />
+      <br>
+      <button id="submit-btn">Submit</button>
+    </div>
+
+    <!-- Message Section -->
+    <div id="message"></div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const correctWord = "ANAGRAM"; // Correct word for the anagram puzzle
+      const anagramElement = document.getElementById("anagram");
+      const inputWord = document.getElementById("input-word");
+      const submitBtn = document.getElementById("submit-btn");
+      const messageElement = document.getElementById("message");
+
+      submitBtn.addEventListener("click", function () {
+        const userInput = inputWord.value.toUpperCase().trim();
+
+        if (userInput === correctWord) {
+          messageElement.textContent = "Correct! You’ll be redirected to the next round.";
+          setTimeout(() => {
+            window.location.href = "https://your-next-round-url.com"; // Redirect to next round
+          }, 1500);
+        } else {
+          messageElement.textContent = "Incorrect. Try again!";
+        }
+      });
+    });
+  </script>
+</body>
+</html>

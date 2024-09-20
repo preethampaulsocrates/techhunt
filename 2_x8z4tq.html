@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navikalp Techhunt - Round 2</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f9;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    #puzzle-container {
+      margin-top: 20px;
+    }
+
+    /* Logo styling */
+    #logo {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+
+    #hint {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    #word {
+      letter-spacing: 10px;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .letter {
+      border-bottom: 2px solid #333;
+      display: inline-block;
+      width: 20px;
+    }
+
+    #incorrect-letters {
+      margin-top: 10px;
+      font-size: 18px;
+      color: red;
+    }
+
+    /* Input box and button styling */
+    #input-container {
+      margin-top: 20px;
+    }
+
+    #input-letter {
+      padding: 10px;
+      font-size: 16px;
+      width: 50px;
+      border: 1px solid #333;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    #submit-btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+
+    #final-word-container {
+      margin-top: 20px;
+    }
+
+    #input-final-word {
+      padding: 10px;
+      font-size: 16px;
+      width: 200px;
+      border: 1px solid #333;
+      border-radius: 5px;
+    }
+
+    #submit-final-btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+
+    #message {
+      font-size: 18px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Logo -->
+    <img id="logo" src="logo.jpg" alt="Logo">
+
+    <h2>Techunt Round-2</h2><br>
+    <h3>Rules:</h3>
+    <ol style="font-size: small; text-align: left;">
+      <li>Guess the word letter by letter using the given hint.</li>
+      <li>You have 6 attempts. If you guess wrong 6 times, you lose.</li>
+      <li>Once you figure out the word, type the full word in the box below to go to the next round.</li>
+    </ol>
+
+    <div id="hint">Hint: <strong>Loading...</strong></div>
+    <div id="word"></div>
+    <div id="incorrect-letters">Incorrect Letters: <span id="wrong-letters">None</span></div>
+
+    <!-- Input box and button for guessing letters -->
+    <div id="input-container">
+      <input type="text" id="input-letter" maxlength="1" placeholder="A-Z" />
+      <br>
+      <button id="submit-btn">Submit</button>
+    </div>
+
+    <div id="message"></div>
+
+    <!-- Final word input and button -->
+    <div id="final-word-container">
+      <input type="text" id="input-final-word" placeholder="Enter the final word" />
+      <br>
+      <button id="submit-final-btn">Submit Final Word</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Word list with hints
+      const wordList = [
+        { word: "gold", hint: "Yellow Precious Metal" },
+        { word: "hockey", hint: "indian national game" },
+        { word: "rainbow", hint: "It is of seven colors" },
+        { word: "clock", hint: "Used to tell the time" },
+        { word: "computer", hint: "Electronic Device" },
+        { word: "mango", hint: " it's an sweet summer fruit" },
+        { word: "phone", hint: "use me to communicate" },
+        { word: "snow", hint: "falls in winter" },
+        { word: " solar", hint: "energy from the sun" },
+        { word: "oxygen", hint: "Gas essential for breathing" }
+      ];
+
+
+      // Select a random word and hint
+      const selectedWordObj = wordList[Math.floor(Math.random() * wordList.length)];
+      const word = selectedWordObj.word.toUpperCase();
+      const hint = selectedWordObj.hint;
+
+      let guessedLetters = [];
+      let wrongLetters = [];
+      let remainingAttempts = 6;
+      const maxAttempts = 6;
+
+      const hintElement = document.getElementById("hint");
+      const wordElement = document.getElementById("word");
+      const wrongLettersElement = document.getElementById("wrong-letters");
+      const inputLetter = document.getElementById("input-letter");
+      const submitBtn = document.getElementById("submit-btn");
+      const finalWordInput = document.getElementById("input-final-word");
+      const submitFinalBtn = document.getElementById("submit-final-btn");
+      const messageElement = document.getElementById("message");
+
+      // Set the hint
+      hintElement.querySelector("strong").textContent = hint;
+
+      // Initialize word display with underscores
+      function displayWord() {
+        wordElement.innerHTML = "";
+        for (let letter of word) {
+          const span = document.createElement("span");
+          span.className = "letter";
+          span.textContent = guessedLetters.includes(letter) ? letter : "_";
+          wordElement.appendChild(span);
+        }
+      }
+
+      // Check if the guessed word is correct
+      function checkWin() {
+        const currentWord = wordElement.textContent.replace(/\s/g, "");
+        if (currentWord === word) {
+          messageElement.textContent = "You've figured out the word! Type it below.";
+          inputLetter.disabled = true;
+          submitBtn.disabled = true;
+        }
+      }
+
+      // Handle letter guess submission
+      submitBtn.addEventListener("click", function () {
+        const guessedLetter = inputLetter.value.toUpperCase();
+        inputLetter.value = "";
+
+        if (!guessedLetter || guessedLetter.length !== 1) {
+          alert("Please enter a valid letter.");
+          return;
+        }
+
+        if (guessedLetters.includes(guessedLetter) || wrongLetters.includes(guessedLetter)) {
+          alert("You've already guessed that letter.");
+          return;
+        }
+
+        if (word.includes(guessedLetter)) {
+          guessedLetters.push(guessedLetter);
+        } else {
+          wrongLetters.push(guessedLetter);
+          remainingAttempts--;
+          wrongLettersElement.textContent = wrongLetters.join(", ");
+        }
+
+        displayWord();
+        checkWin();
+
+        if (remainingAttempts === 0) {
+          messageElement.textContent = "Game Over! The word was: " + word;
+          inputLetter.disabled = true;
+          submitBtn.disabled = true;
+        }
+      });
+
+      // Handle final word submission
+      submitFinalBtn.addEventListener("click", function () {
+        const finalWord = finalWordInput.value.toUpperCase();
+
+        if (finalWord === word) {
+          window.location.href = "https://your-next-url.com"; // Redirect to the next URL
+        } else {
+          alert("Incorrect word. Try again!");
+        }
+      });
+
+      displayWord();
+    });
+  </script>
+</body>
+</html>
